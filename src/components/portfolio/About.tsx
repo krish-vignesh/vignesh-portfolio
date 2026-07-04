@@ -1,13 +1,7 @@
 import { Section } from "./Section";
-import { GraduationCap, Code2, LineChart, Brain } from "lucide-react";
+import { GraduationCap, Code2, LineChart, Brain, Cpu, Database } from "lucide-react";
 
 const skills = [
-  {
-    icon: Code2,
-    label: "Python",
-    note: "pandas · numpy",
-    context: "Daily driver for data processing, ML workflows, and automating small AI pipelines end-to-end.",
-  },
   {
     icon: LineChart,
     label: "Analysis",
@@ -18,13 +12,19 @@ const skills = [
     icon: Brain,
     label: "ML & AI",
     note: "scikit-learn · LangChain",
-    context: "Beginner ML workflows alongside early work on RAG, LangGraph agents, and human-in-the-loop AI flows.",
+    context: "Structured machine learning pipelines alongside workflows combining RAG, LangGraph agents, and human-in-the-loop validation.",
   },
   {
-    icon: GraduationCap,
-    label: "DS Maths",
-    note: "linear algebra · probability · calculus",
-    context: "Studying the maths behind ML and modern AI so the systems are understood, not just used.",
+    icon: Cpu,
+    label: "Enterprise AI",
+    note: "LangGraph · MCP · Guardrails",
+    context: "Enterprise RAG, Agentic AI, AI Evaluation, AI Guardrails, LangGraph, and Model Context Protocol (MCP).",
+  },
+  {
+    icon: Database,
+    label: "Data Engineering",
+    note: "Spark · Databricks · Delta Lake",
+    context: "Apache Spark, Databricks, Delta Lake, Medallion Architecture, ETL/ELT workflows, and Data Lakehouse architectures.",
   },
 ];
 

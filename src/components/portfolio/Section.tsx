@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { motion } from "framer-motion";
 
 export function Section({
   id,
@@ -46,14 +47,26 @@ export function Section({
       <div ref={ref} className={`mx-auto max-w-6xl px-6 reveal ${visible ? "is-visible" : ""}`}>
         {connector && (
           <div className="mb-6 flex items-center gap-3 text-[11px] font-medium uppercase tracking-wider text-muted-foreground/80">
-            <span className="h-px w-8 bg-border" />
+            <motion.span
+              initial={{ width: 0 }}
+              whileInView={{ width: "2rem" }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="h-px bg-border block"
+            />
             <span>{connector}</span>
           </div>
         )}
         <div className="mb-10 max-w-2xl sm:mb-12">
           {eyebrow && (
             <div className="mb-3 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-primary">
-              <span className="h-px w-6 bg-primary/50" />
+              <motion.span
+                initial={{ width: 0 }}
+                whileInView={{ width: "1.5rem" }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                className="h-px bg-primary/50 block"
+              />
               {eyebrow}
             </div>
           )}

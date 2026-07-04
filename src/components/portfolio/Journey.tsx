@@ -41,8 +41,8 @@ const milestones = [
   {
     status: "active" as const,
     title: "Retrieval-Augmented Generation (RAG)",
-    detail: "Building RAG systems using synthetic documents and PDFs. Exploring chunking, embeddings, vector search, Hybrid RAG, Multi-Query Retrieval, and retrieval evaluation.",
-    concepts: ["document chunking", "embeddings", "vector search", "Hybrid RAG", "Multi-Query Retrieval"],
+    detail: "Building production retrieval systems and enterprise AI workflows. Exploring advanced Retrieval-Augmented Generation (RAG), hybrid search, re-ranking, and evaluation pipelines.",
+    concepts: ["document chunking", "embeddings", "vector search", "Hybrid RAG", "Multi-Query Retrieval", "✅ RAGAS (In Progress)", "⏳ DeepEval", "⏳ TruLens"],
   },
   {
     status: "active" as const,
@@ -67,6 +67,54 @@ const milestones = [
     title: "Agentic AI Architecture Design",
     detail: "Designing scalable Agentic AI systems combining LLMs, tools, memory, retrieval, human-in-the-loop workflows, and multi-agent collaboration.",
     concepts: ["LLM agents", "memory & retrieval", "human-in-the-loop", "orchestration", "multi-agent collaboration"],
+  },
+  {
+    status: "todo" as const,
+    title: "AI Guardrails",
+    detail: "Learning enterprise AI safety techniques including prompt protection, hallucination mitigation, input/output validation, policy enforcement, and responsible AI deployment.",
+    concepts: ["prompt protection", "hallucination mitigation", "input/output validation", "policy enforcement", "responsible AI"],
+  },
+  {
+    status: "todo" as const,
+    title: "Model Context Protocol (MCP)",
+    detail: "Exploring the Model Context Protocol for standardized AI tool integration, external resource access, and interoperable AI agent communication.",
+    concepts: ["AI tool integration", "external resources", "agent communication", "standardization"],
+  },
+  {
+    status: "todo" as const,
+    title: "CI/CD for AI Applications",
+    detail: "Building automated testing, deployment, versioning, and continuous delivery pipelines for production AI applications.",
+    concepts: ["automated testing", "continuous delivery", "versioning", "production pipelines"],
+  },
+  {
+    status: "todo" as const,
+    title: "Docker & Containerization",
+    detail: "Learning Docker fundamentals, container orchestration basics, image optimization, and reproducible AI development environments.",
+    concepts: ["containers", "orchestration", "image optimization", "reproducible environments"],
+  },
+  {
+    status: "todo" as const,
+    title: "Microsoft Azure",
+    detail: "Learning Azure AI services, Azure Machine Learning, cloud infrastructure, deployment workflows, and enterprise AI solutions.",
+    concepts: ["Azure AI services", "Azure ML", "cloud infrastructure", "deployment workflows"],
+  },
+  {
+    status: "todo" as const,
+    title: "Enterprise Software Architecture",
+    detail: "Learning scalable backend architecture, system design, REST API design, distributed systems, event-driven architecture, Kafka messaging, and enterprise software engineering best practices.",
+    concepts: ["scalable backend", "system design", "distributed systems", "event-driven", "Kafka messaging"],
+  },
+  {
+    status: "todo" as const,
+    title: "Apache Spark",
+    detail: "Learning distributed data processing, Spark SQL, DataFrames, transformations, actions, and scalable analytics pipelines.",
+    concepts: ["distributed processing", "Spark SQL", "DataFrames", "transformations", "actions"],
+  },
+  {
+    status: "todo" as const,
+    title: "Databricks Platform",
+    detail: "Learning enterprise data engineering using Databricks, ETL pipelines, ELT workflows, Delta Lake, Data Lake architecture, and modern analytics engineering.",
+    concepts: ["ETL pipelines", "ELT workflows", "Delta Lake", "Data Lake architecture", "analytics engineering"],
   },
   {
     status: "todo" as const,

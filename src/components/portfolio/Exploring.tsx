@@ -4,27 +4,27 @@ import { BookOpen, Code, Database, FlaskConical } from "lucide-react";
 const items = [
   {
     icon: FlaskConical,
-    tag: "Concept",
-    title: "Math for ML & AI",
-    body: "Building intuition for linear algebra, probability, and gradients — the foundations behind ML models and modern AI systems.",
+    tag: "ENTERPRISE DATA",
+    title: "AI-Ready Data Platforms",
+    body: "Learning how enterprise organizations prepare data for AI systems through modern data architectures, governance, and scalable analytics platforms.",
     preview:
-      "Working through small examples to see how vectors, distributions, and derivatives drive everything from regression to embeddings and attention.",
+      "Currently exploring: • Medallion Architecture • Data Lakehouse • Delta Lake • Unity Catalog • Data Governance • AI-Ready Data • Enterprise Data Pipelines • Modern Data Platforms",
   },
   {
     icon: Code,
-    tag: "Library",
-    title: "scikit-learn pipelines",
-    body: "Wiring preprocessing, feature engineering, and models into a single, reproducible ML workflow.",
+    tag: "SYSTEM DESIGN",
+    title: "Enterprise System Design",
+    body: "Studying how production software systems are architected for scalability, reliability, and enterprise-grade AI applications.",
     preview:
-      "Practising Pipeline, ColumnTransformer, and cross-validation on tabular datasets so experiments stay clean, honest, and comparable.",
+      "Currently exploring: • System Design • Backend Architecture • REST API Design • Scalable Backend Systems • Event-Driven Architecture • Kafka • Distributed Systems • High-Level Architecture Design",
   },
   {
     icon: Database,
-    tag: "Practice",
-    title: "Exploratory Data Analysis (EDA)",
-    body: "Data cleaning, grouping, and visualization — pulling honest insights from real data before any model or retrieval system is built.",
+    tag: "DATA ENGINEERING",
+    title: "Apache Spark & Databricks",
+    body: "Learning distributed data engineering for large-scale analytics and AI pipelines using modern enterprise data processing frameworks.",
     preview:
-      "Profiling distributions, handling missing values, and producing clear matplotlib and seaborn summaries of what the data is actually saying.",
+      "Currently exploring: • Apache Spark • Spark SQL • DataFrames • ETL Pipelines • ELT Workflows • Databricks • Delta Lake • Data Lake Architecture • Batch Processing • Distributed Computing",
   },
   {
     icon: BookOpen,

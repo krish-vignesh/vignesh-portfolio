@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Menu, Network, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const links = [
   { href: "#about", label: "About" },
@@ -13,9 +14,31 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string>("");
+  const [visible, setVisible] = useState(true);
+  const [scrollPercent, setScrollPercent] = useState(0);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    let lastScrollY = window.scrollY;
+
+    const onScroll = () => {
+      const currentScrollY = window.scrollY;
+      setScrolled(currentScrollY > 8);
+
+      // Scroll Hide / Reveal Logic
+      if (currentScrollY > lastScrollY && currentScrollY > 80) {
+        setVisible(false);
+      } else {
+        setVisible(true);
+      }
+      lastScrollY = currentScrollY;
+
+      // Scroll Progress Logic
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalHeight > 0) {
+        setScrollPercent((currentScrollY / totalHeight) * 100);
+      }
+    };
+
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -58,10 +81,19 @@ export function Navbar() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "border-b border-border bg-background/80 backdrop-blur-md"
+          ? "border-b border-border bg-surface/98 shadow-sm"
           : "border-b border-transparent"
       }`}
+      style={{
+        transform: visible ? "translate3d(0, 0, 0)" : "translate3d(0, -100%, 0)",
+      }}
     >
+      {/* Scroll Progress Bar (2px height, no blur, no shadow, no glow) */}
+      <div
+        className="absolute top-0 left-0 h-[2px] bg-primary z-50 transition-all duration-75 ease-out"
+        style={{ width: `${scrollPercent}%` }}
+      />
+
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <a href="#top" className="group flex items-center gap-2.5">
           <span className="grid h-8 w-8 place-items-center rounded-md border border-border bg-surface text-foreground transition-transform duration-300 group-hover:-rotate-3">
@@ -80,9 +112,16 @@ export function Navbar() {
                 key={l.href}
                 href={l.href}
                 data-active={isActive || undefined}
-                className="nav-link-refined rounded-md px-3 py-2 text-sm"
+                className="nav-link-refined rounded-md px-3 py-2 text-sm relative"
               >
-                {l.label}
+                <span className="relative z-10">{l.label}</span>
+                {isActive && (
+                  <motion.span
+                    layoutId="active-nav-underline"
+                    className="absolute bottom-1 left-3 right-3 h-[2px] bg-primary"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
               </a>
             );
           })}
@@ -103,22 +142,30 @@ export function Navbar() {
         </button>
       </div>
 
-      {open && (
-        <div className="border-t border-border bg-background/95 backdrop-blur-md md:hidden">
-          <nav className="mx-auto flex max-w-6xl flex-col gap-1 px-6 py-4">
-            {links.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                onClick={() => setOpen(false)}
-                className="nav-link-refined rounded-md px-3 py-2.5 text-sm"
-              >
-                {l.label}
-              </a>
-            ))}
-          </nav>
-        </div>
-      )}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+            className="border-t border-border bg-surface md:hidden overflow-hidden"
+          >
+            <nav className="mx-auto flex max-w-6xl flex-col gap-1 px-6 py-4">
+              {links.map((l) => (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className="nav-link-refined rounded-md px-3 py-2.5 text-sm"
+                >
+                  {l.label}
+                </a>
+              ))}
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

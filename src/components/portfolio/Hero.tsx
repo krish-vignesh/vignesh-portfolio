@@ -1,5 +1,6 @@
 import { ArrowRight, Github, Linkedin } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { type ReactNode, useEffect, useRef } from "react";
 
 const techPills = [
   { text: "Python", top: "14%", left: "4%", delay: 3.5, duration: 18, ampX: 8, ampY: 15, dirX: 1 as const, dirY: -1 as const },
@@ -53,7 +54,109 @@ const cssAnimations = techPills.map((pill, idx) => {
   }
 `;
 
+export function MagneticButton({
+  children,
+  className,
+  href,
+  target,
+  rel,
+  "aria-label": ariaLabel,
+}: {
+  children: ReactNode;
+  className?: string;
+  href?: string;
+  target?: string;
+  rel?: string;
+  "aria-label"?: string;
+}) {
+  const ref = useRef<HTMLAnchorElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const springX = useSpring(x, { damping: 25, stiffness: 250 });
+  const springY = useSpring(y, { damping: 25, stiffness: 250 });
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const btnX = rect.left + rect.width / 2;
+    const btnY = rect.top + rect.height / 2;
+
+    const distanceX = e.clientX - btnX;
+    const distanceY = e.clientY - btnY;
+    const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+    if (distance < 40) {
+      x.set(distanceX * 0.08);
+      y.set(distanceY * 0.08);
+    } else {
+      x.set(0);
+      y.set(0);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.a
+      ref={ref}
+      href={href}
+      target={target}
+      rel={rel}
+      aria-label={ariaLabel}
+      className={className}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ x: springX, y: springY }}
+      whileHover={{
+        y: -3,
+        boxShadow: "0 10px 20px -5px rgba(0, 0, 0, 0.08)",
+      }}
+      whileTap={{ scale: 0.98 }}
+    >
+      {children}
+    </motion.a>
+  );
+}
+
 export function Hero() {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const springConfig = { damping: 50, stiffness: 400 };
+  const smoothX = useSpring(mouseX, springConfig);
+  const smoothY = useSpring(mouseY, springConfig);
+
+  const cardParallaxX = useTransform(smoothX, [-300, 300], [-4, 4]);
+  const cardParallaxY = useTransform(smoothY, [-300, 300], [-4, 4]);
+
+  const pillParallaxX = useTransform(smoothX, [-300, 300], [-7, 7]);
+  const pillParallaxY = useTransform(smoothY, [-300, 300], [-7, 7]);
+
+  const headlineX = useTransform(smoothX, [-300, 300], [-1.5, 1.5]);
+  const headlineY = useTransform(smoothY, [-300, 300], [-1.5, 1.5]);
+
+  const paragraphX = useTransform(smoothX, [-300, 300], [-1, 1]);
+  const paragraphY = useTransform(smoothY, [-300, 300], [-1, 1]);
+
+  const buttonsX = useTransform(smoothX, [-300, 300], [-2, 2]);
+  const buttonsY = useTransform(smoothY, [-300, 300], [-2, 2]);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const offsetX = e.clientX - window.innerWidth / 2;
+      const offsetY = e.clientY - window.innerHeight / 2;
+      mouseX.set(offsetX);
+      mouseY.set(offsetY);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [mouseX, mouseY]);
+
   return (
     <section
       id="top"
@@ -61,11 +164,10 @@ export function Hero() {
     >
       <style dangerouslySetInnerHTML={{ __html: cssAnimations }} />
 
-      {/* Floating Technology Pills in the Background */}
       {techPills.map((pill, idx) => (
         <div
           key={pill.text}
-          className={`hidden md:inline-flex items-center rounded-full border border-border bg-surface/90 px-3 py-1.5 text-[11px] font-medium text-muted-foreground shadow-sm cursor-default select-none z-0 float-pill-class-${idx}`}
+          className={`hidden md:inline-flex items-center float-pill-class-${idx}`}
           style={{
             position: "absolute",
             top: pill.top,
@@ -75,6 +177,11 @@ export function Hero() {
           }}
         >
           <motion.div
+            style={{ x: pillParallaxX, y: pillParallaxY }}
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.7 + idx * 0.05, ease: "easeOut" }}
+            className="rounded-full border border-border bg-surface/90 px-3 py-1.5 text-[11px] font-medium text-muted-foreground shadow-sm cursor-default select-none z-0"
             whileHover={{
               scale: 1.03,
               y: -2,
@@ -88,14 +195,24 @@ export function Hero() {
 
       <div className="mx-auto max-w-6xl px-6 relative z-10">
         <div className="grid items-end gap-14 lg:grid-cols-12 lg:gap-20">
-          {/* Left — headline (60%) */}
           <div className="lg:col-span-7">
-            <div className="hero-enter flex items-center gap-3 text-[0.7rem] font-medium uppercase tracking-[0.22em] text-muted-foreground">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+              className="hero-enter flex items-center gap-3 text-[0.7rem] font-medium uppercase tracking-[0.22em] text-muted-foreground"
+            >
               <span className="h-px w-8 bg-foreground/30" />
               Vignesh Krishna
-            </div>
+            </motion.div>
 
-            <h1 className="hero-enter hero-delay-1 mt-8 text-balance font-display text-[2.75rem] font-medium leading-[1.02] tracking-[-0.022em] text-foreground sm:text-[3.75rem] md:text-[4.5rem]">
+            <motion.h1
+              style={{ x: headlineX, y: headlineY }}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="hero-enter hero-delay-1 mt-8 text-balance font-display text-[2.75rem] font-medium leading-[1.02] tracking-[-0.022em] text-foreground sm:text-[3.75rem] md:text-[4.5rem]"
+            >
               Building foundations in{" "}
               <span className="italic font-normal text-muted-foreground">
                 Data Science
@@ -105,34 +222,46 @@ export function Hero() {
                 AI Engineering
               </span>
               .
-            </h1>
+            </motion.h1>
 
-            <p className="hero-enter hero-delay-2 mt-9 max-w-[34rem] text-pretty text-[1.02rem] leading-[1.7] text-muted-foreground sm:text-lg sm:leading-[1.65]">
+            <motion.p
+              style={{ x: paragraphX, y: paragraphY }}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="hero-enter hero-delay-2 mt-9 max-w-[34rem] text-pretty text-[1.02rem] leading-[1.7] text-muted-foreground sm:text-lg sm:leading-[1.65]"
+            >
               Aspiring Data Scientist and AI Engineer exploring data, machine
               learning, retrieval systems, and agentic workflows. A working
               record of what I&apos;m studying and the projects I&apos;m building
               along the way.
-            </p>
+            </motion.p>
 
-            <div className="hero-enter hero-delay-3 mt-11 flex flex-wrap items-center gap-2.5">
-              <a
+            <motion.div
+              style={{ x: buttonsX, y: buttonsY }}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
+              className="hero-enter hero-delay-3 mt-11 flex flex-wrap items-center gap-2.5"
+            >
+              <MagneticButton
                 href="#projects"
-                className="cta-btn cta-btn-primary group inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground"
+                className="cta-btn cta-btn-primary group inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-sm"
               >
                 View projects
                 <ArrowRight
                   size={15}
-                  className="transition-transform duration-300 group-hover:translate-x-0.5"
+                  className="transition-transform duration-300 group-hover:translate-x-1"
                 />
-              </a>
-              <a
+              </MagneticButton>
+              <MagneticButton
                 href="#about"
-                className="cta-btn cta-btn-ghost inline-flex items-center gap-2 rounded-md border border-border bg-surface px-5 py-2.5 text-sm font-medium text-foreground"
+                className="cta-btn cta-btn-ghost inline-flex items-center gap-2 rounded-md border border-border bg-surface px-5 py-2.5 text-sm font-medium text-foreground shadow-sm"
               >
                 About me
-              </a>
+              </MagneticButton>
               <div className="ml-2 flex items-center gap-1.5">
-                <a
+                <MagneticButton
                   href="https://github.com/krish-vignesh"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -140,8 +269,8 @@ export function Hero() {
                   className="icon-btn grid h-10 w-10 place-items-center rounded-md border border-border bg-surface text-muted-foreground hover:text-foreground"
                 >
                   <Github size={16} />
-                </a>
-                <a
+                </MagneticButton>
+                <MagneticButton
                   href="https://www.linkedin.com/in/vigneshkrishnar"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -149,18 +278,21 @@ export function Hero() {
                   className="icon-btn grid h-10 w-10 place-items-center rounded-md border border-border bg-surface text-muted-foreground hover:text-foreground"
                 >
                   <Linkedin size={16} />
-                </a>
+                </MagneticButton>
               </div>
-            </div>
+            </motion.div>
           </div>
 
-          {/* Right — meta strip (40%) */}
           <div className="hero-enter hero-delay-4 lg:col-span-5 relative z-20">
             <div className="float-card-class">
-              <motion.div 
-                className="info-card cursor-default"
+              <motion.div
+                style={{ x: cardParallaxX, y: cardParallaxY }}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
+                className="info-card cursor-default border border-border hover:border-foreground/20 transition-colors"
                 whileHover={{
-                  y: -3,
+                  y: -4,
                   boxShadow: "0 20px 40px -15px rgba(0, 0, 0, 0.12)",
                 }}
                 transition={{ duration: 0.25, ease: "easeOut" }}
