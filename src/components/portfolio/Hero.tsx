@@ -287,15 +287,23 @@ export function Hero() {
             <div className="float-card-class">
               <motion.div
                 style={{ x: cardParallaxX, y: cardParallaxY }}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
-                className="info-card cursor-default border border-border hover:border-foreground/20 transition-colors"
-                whileHover={{
-                  y: -4,
-                  boxShadow: "0 20px 40px -15px rgba(0, 0, 0, 0.12)",
+                variants={{
+                  hidden: { opacity: 0, y: 15 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.7, delay: 0.85, ease: [0.16, 1, 0.3, 1] }
+                  },
+                  hover: {
+                    y: -4,
+                    boxShadow: "0 20px 40px -15px rgba(0, 0, 0, 0.12)",
+                    transition: { duration: 0.25, ease: "easeOut" }
+                  }
                 }}
-                transition={{ duration: 0.25, ease: "easeOut" }}
+                initial="hidden"
+                animate="visible"
+                whileHover="hover"
+                className="info-card cursor-default border border-border hover:border-foreground/20 transition-colors"
               >
                 <div className="mb-5 flex items-center justify-between">
                   <span className="text-[0.65rem] font-medium uppercase tracking-[0.2em] text-muted-foreground">
