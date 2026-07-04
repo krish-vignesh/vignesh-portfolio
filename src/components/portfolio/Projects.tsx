@@ -66,7 +66,7 @@ const projects: Project[] = [
     ],
     challenges: "Designed an enterprise-scale AI architecture capable of integrating structured economic data, document retrieval, hybrid search strategies, AI evaluation, observability, and interactive analytics into a scalable and maintainable platform while ensuring reliable AI responses and an intuitive user experience.",
     highlights: "Enterprise Full-Stack Architecture • Hybrid Retrieval (Vector Search + BM25 + Reciprocal Rank Fusion) • Modular AI Service Architecture • Gemini-powered reasoning engine • Executive analytics dashboard • LangSmith observability • RAGAS evaluation pipeline • Docker-based development environment • Scalable and reusable application architecture",
-    github: "https://github.com/krish-vignesh/Macro_RAG",
+    github: "https://github.com/krish-vignesh/Enterprise-Macro-RAG",
   },
   {
     title: "VGSales — End-to-End Machine Learning Pipeline",
@@ -104,7 +104,7 @@ const projects: Project[] = [
     ],
     challenges: "Improving classification performance while minimizing overfitting required careful feature engineering, model selection, validation strategy, and threshold optimization. Multiple algorithms were benchmarked before selecting the final optimized model.",
     highlights: "End-to-End ML Pipeline • Feature Engineering Workflow • Classification Modeling • XGBoost Optimization • Stratified Cross Validation • Threshold Tuning • Model Performance Comparison • Production-style ML Workflow",
-    github: "https://github.com/krish-vignesh/vgsales-eda-ml",
+    github: "https://github.com/krish-vignesh/ML_GAME_DATA",
   },
   {
     title: "Retail dashboard analysis",
@@ -220,7 +220,7 @@ const projects: Project[] = [
     ],
     challenges: "Balancing retrieval accuracy, response quality, and inference latency while integrating semantic search, re-ranking, evaluation, and observability into a modular and maintainable AI pipeline.",
     highlights: "Modular Retrieval-Augmented Generation architecture • Retrieval optimization using MMR and Cross-Encoder Re-Ranking • Local LLM deployment with Ollama and Llama 3.2 • Automated evaluation pipeline with RAGAS • End-to-end observability using LangSmith • Experiment-driven retrieval optimization",
-    github: "https://github.com/krish-vignesh/rag-retrieval-pipeline",
+    github: "https://github.com/krish-vignesh/rag01-basic-rag",
   },
   {
     title: "Agentic AI email summarizer",

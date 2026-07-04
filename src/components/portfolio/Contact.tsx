@@ -1,7 +1,16 @@
+import { useState } from "react";
 import { Section } from "./Section";
 import { Mail, Github, Linkedin, ArrowRight } from "lucide-react";
 
 export function Contact() {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText("krishvignesh1015@gmail.com");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <Section
       id="contact"
@@ -16,21 +25,29 @@ export function Contact() {
             The fastest way to reach me is by email. I read everything and try to
             reply within a couple of days.
           </p>
-          <a
-            href="mailto:krishvignesh1015@gmail.com"
-            className="mt-6 inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
-          >
-            <Mail size={16} />
-            krishvignesh1015@gmail.com
-            <ArrowRight size={14} />
-          </a>
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <a
+              href="mailto:krishvignesh1015@gmail.com?subject=Portfolio%20Inquiry"
+              className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
+            >
+              <Mail size={16} />
+              krishvignesh1015@gmail.com
+              <ArrowRight size={14} />
+            </a>
+            <button
+              onClick={handleCopy}
+              className="inline-flex items-center gap-2 rounded-md border border-border bg-background/40 px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+            >
+              {copied ? "Copied!" : "Copy"}
+            </button>
+          </div>
         </div>
 
         <div className="flex flex-col gap-2 md:border-l md:border-border md:pl-8">
           {[
             { icon: Github, label: "GitHub", value: "@krish-vignesh", href: "https://github.com/krish-vignesh" },
             { icon: Linkedin, label: "LinkedIn", value: "in/vigneshkrishnar", href: "https://www.linkedin.com/in/vigneshkrishnar" },
-            { icon: Mail, label: "Email", value: "krishvignesh1015@gmail.com", href: "mailto:krishvignesh1015@gmail.com" },
+            { icon: Mail, label: "Email", value: "krishvignesh1015@gmail.com", href: "mailto:krishvignesh1015@gmail.com?subject=Portfolio%20Inquiry" },
           ].map((c) => (
             <a
               key={c.label}
